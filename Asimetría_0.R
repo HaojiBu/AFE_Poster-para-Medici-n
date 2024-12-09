@@ -34,7 +34,7 @@ i10 <- (Lambda2 * F2) + (Error2 * rnorm(n))
 
 ### Se convierten a ordinales de 5 categorias ###
 ## Definir puntos de corte
-breaks5 <- c(-Inf, -1.28, -0.84, 0.84, 1.28, Inf)
+breaks5 <- c(-Inf, -1.8, -0.6, 0.6, 1.8, Inf)
 labels5 <- c(1, 2, 3, 4, 5)
 
 i1o5 <- as.numeric(cut(i1, breaks = breaks5,labels = labels5))
@@ -100,6 +100,20 @@ datos10o3 <- cbind(i1o3, i2o3, i3o3, i4o3, i5o3,
                    i6o3, i7o3, i8o3, i9o3, i10o3) 
 
 
+hist(datos10c)
+hist(datos10o5)
+hist(datos10o4)
+hist(datos10o3)
+## Comprobar normalidad ##
+
+mardia(datos10c)
+mardia(datos10o3)
+mardia(datos10o4)
+mardia(datos10o5)
+
+## Todos se muestran normales
+
+
 ## Crear los vectores con los pesos estimados ##
 loadings_c <- fa(datos10c, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
 loadings_o3 <- fa(datos10o3, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
@@ -156,9 +170,4 @@ df_result <- df_all[, c("ML1C", "ML2C", "ML1_3", "ML2_3", "ML1_4", "ML2_4", "ML1
 
 # Exportarlo 
 write.csv(df_result, file = "Simétrico.csv", row.names = FALSE)
-
-# Calcular los residuos entre lambda y los pesos hallados
-sqrt(mean((Lambda - loadings_c)^2))
-sqrt(mean((Lambda - loadings_o)^2))
-sqrt(mean((Lambda - loadings_poly)^2))
 

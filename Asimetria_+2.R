@@ -106,6 +106,16 @@ hist(datos10o5)
 hist(datos10o4)
 hist(datos10o3)
 
+
+## Comprobar normalidad ##
+
+mardia(datos10c)
+mardia(datos10o3)
+mardia(datos10o4)
+mardia(datos10o5)
+
+## Ninguno pasa la prueba, efectivamente se han simulado datos no normales
+
 loadings_c <- fa(datos10c, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
 loadings_o3 <- fa(datos10o3, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
 loadings_o4 <- fa(datos10o4, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
@@ -162,9 +172,4 @@ df_result <- df_all[, c("ML1C", "ML2C", "ML1_3", "ML2_3", "ML1_4", "ML2_4", "ML1
 
 # Exportarlo 
 write.csv(df_result, file = "pesos_asimetria+2.csv", row.names = FALSE)
-
-# Calcular los residuos entre lambda y los pesos hallados
-sqrt(mean((Lambda - loadings_c)^2))
-sqrt(mean((Lambda - loadings_o)^2))
-sqrt(mean((Lambda - loadings_poly)^2))
 
