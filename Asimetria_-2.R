@@ -53,7 +53,6 @@ i10o5 <- as.numeric(cut(i10, breaks = breaks5,labels = labels5))
 
 
 ### 4 categorías ###
-
 breaks4 <- c(-Inf, -2, -1, 0, Inf)
 labels_4 <- c(1, 2, 3, 4)
 
@@ -71,9 +70,6 @@ i10o4 <- as.numeric(cut(i10, breaks = breaks4, labels = labels_4))
 
 
 ### 3 categorías ###
-quantile(F1, probs = c(0.25, 0.50, 0.75, 1))
-quantile(F2,  probs = c(0.33, 0.66, 0.75, 1))
-
 breaks3 <- c(-Inf, -1.5, -0.3, Inf)
 labels_3 <- c(1, 2, 3)
 
@@ -107,6 +103,15 @@ hist(datos10c)
 hist(datos10o5)
 hist(datos10o4)
 hist(datos10o3)
+
+## Comprobar normalidad ##
+
+mardia(datos10c)
+mardia(datos10o3)
+mardia(datos10o4)
+mardia(datos10o5)
+
+## Ninguno pasa la prueba, efectivamente se han simulado datos no normales
 
 loadings_c <- fa(datos10c, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
 loadings_o3 <- fa(datos10o3, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings

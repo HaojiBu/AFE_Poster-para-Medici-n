@@ -107,6 +107,15 @@ hist(datos10o5)
 hist(datos10o4)
 hist(datos10o3)
 
+## Comprobar normalidad ##
+
+mardia(datos10c)
+mardia(datos10o3)
+mardia(datos10o4)
+mardia(datos10o5)
+
+## Ninguno pasa la prueba, efectivamente se han simulado datos no normales
+
 loadings_c <- fa(datos10c, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
 loadings_o3 <- fa(datos10o3, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
 loadings_o4 <- fa(datos10o4, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings

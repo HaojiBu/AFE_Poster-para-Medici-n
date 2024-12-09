@@ -12,17 +12,12 @@ set.seed(1111)
 n <- 1000 #tamaño muestral
 F1 <- rnonnorm(n, mean = 0, sd = 1, skew = -1)$dat
 F2 <- rnonnorm(n, mean = 0, sd = 1, skew = -1)$dat
-
+hist(F1)
 Lambda1 <- c(0.7)
 Error1 <- c(sqrt(1-(Lambda1^2)))
 
 Lambda2 <- c(0.5)
 Error2 <- c(sqrt(1-(Lambda2^2)))
-
-hist(F1)
-median(F1)
-quantile(F2)
-hist(F2)
 
 ### Se simulan los items ###
 i1 <- (Lambda1 * F1) + (Error1 * rnonnorm(n, mean = 0, sd = 1, skew = -1)$dat)
@@ -41,8 +36,6 @@ i10 <- (Lambda2 * F2) + (Error2 * rnonnorm(n, mean = 0, sd = 1, skew = -1)$dat)
 
 ### Se convierten a ordinales de 5 categorias ###
 ## Definir puntos de corte
-quantile(F1, probs = c(0.20, 0.40, 0.60, 0.8, 1))
-
 breaks5 <- c(-Inf, -1.8, -1.2, -0.6, 0, Inf)
 labels5 <- c(1, 2, 3, 4, 5)
 
@@ -61,10 +54,6 @@ i10o5 <- as.numeric(cut(i10, breaks = breaks5,labels = labels5))
 
 
 ### 4 categorías ###
-
-quantile(F1, probs = c(0.25, 0.50, 0.75, 1))
-quantile(F2,  probs = c(0.25, 0.50, 0.75, 1))
-
 breaks4 <- c(-Inf, -1.5, -0.5, 0.3, Inf)
 labels_4 <- c(1, 2, 3, 4)
 
@@ -82,8 +71,7 @@ i10o4 <- as.numeric(cut(i10, breaks = breaks4, labels = labels_4))
 
 
 ### 3 categorías ###
-
-breaks3 <- c(-Inf, -0.841, 0.841, Inf)
+breaks3 <- c(-Inf, -1, 0, Inf)
 labels_3 <- c(1, 2, 3)
 
 i1o3 <- as.numeric(cut(i1, breaks = breaks3, labels = labels_3))
@@ -113,8 +101,18 @@ datos10o3 <- cbind(i1o3, i2o3, i3o3, i4o3, i5o3,
 
 
 hist(datos10c)
-hist(datos10o5)
+hist(datos10o3)
 hist(datos10o4)
+hist(datos10o5)
+
+## Comprobar normalidad ##
+
+mardia(datos10c)
+mardia(datos10o3)
+mardia(datos10o4)
+mardia(datos10o5)
+
+## Ninguno pasa la prueba, efectivamente se han simulado datos no normales
 
 loadings_c <- fa(datos10c, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
 loadings_o3 <- fa(datos10o3, nfactors = 2, fm = "ml", cor = "cor", rotate = "oblimin")$loadings
